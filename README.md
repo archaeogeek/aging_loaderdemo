@@ -1,7 +1,7 @@
 
 =======
-AGI Northern Group GitHub Talk
+AGI Northern Group Loader Demo
 ================
 
-My talk on "Beginning GitHub for Geospatial Folk" at the AGI Northern Group meeting in York, November 2013
+My demo of "Loading, Styling and Displaying Ordnance Survey Mastermap Data" at the AGI Northern Group meeting in York, November 2013
 
