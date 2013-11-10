@@ -16,6 +16,7 @@
 
 		<link rel="stylesheet" href="css/reveal.min.css">
 		<link rel="stylesheet" href="css/theme/serif.css" id="theme">
+		<link rel="stylesheet" href="css/custom.css">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -37,11 +38,12 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Loading, Styling and Displaying Ordnance Survey Mastermap Data</h1>
+					<h2>Loading, Styling and Displaying Ordnance Survey Mastermap Data</h2>
 					<h3>with Open Source Software</h3>
 					<p>
 						<small>Jo Cook, Astun Technology</a> / <a href="http://twitter.com/archaeogeek">@archaeogeek</a></small>
 					</p>
+					<img class="center" src="./images/logo.jpg" alt="Astun Logo">
 				</section>
 				
 				<section>
@@ -51,44 +53,75 @@
 
 				<section>
 					<h2>What tools are we going to use?</h2>
-					<li>Python</li>
-					<li>OGR</li>
-					<li>PostGIS</li>
-					<li>MapServer</li>
-					<li>QGIS</li>
-					<li>OpenLayers</li>
+					<h3>Definitely...</h3>
+					<ul>
+						<li>Python</li>
+						<li>OGR</li>
+						<li>PostGIS</li>
+					</ul>
+					<h3>Possibly...</h3>
+					<ul>
+						<li>QGIS</li>
+						<li>MapServer</li>
+						<li>OpenLayers</li>
+					</ul>
 				</section>
 
 				<section>
 					<h2>Step 1</h2>
-					<li>Get Data</li>
-					<li>Configure the database<li>
-					<li>Configure Loader</li>
+					<ul>
+						<li>Get Loader from <a href="https://github.com/AstunTechnology/Loader">GitHub</a> and see <a href="https://github.com/AstunTechnology/Loader/wiki/Installation">the Loader wiki</a> for installation instructions</li>
+						<li>Get Dependencies (GDAL and Python via <a href="http://trac.osgeo.org/osgeo4w/">OSGeo4W</a>, and <a href="https://pypi.python.org/pypi/lxml/2.3/">lxml</a>)</li>
+						<li>Get Data</li>
+						<li>Configure the database</li>
+						<li>Configure Loader</li>
+						<aside class="notes">
+							Easiest to use OSGeo4W to install and run python as it will ensure paths and dependencies are all correct (follow the wiki!)
+						</aside>
+					</ul>
+					<aside class="notes">
+						Switch to XP VM, explain need to download sample Mastermap topography dataset from Ordnance Survey. Unzip to get to gz file.
+						Explain creation of database in pgadmin3 (dbname mastermap username postgres password p0stgres)
+						Edit python/loader.config and change src_dir, and ogr_cmd (note debug flag if problems)
+					</aside>
 				</section>
 
 				<section>
 					<h2>Step 2</h2>
 					<li>Run Loader</li>
 					<li>Examine results in database</li>
+					<img class="center" src="./images/loader_finished.png" alt="Loader Finished">
+					<aside class="notes">
+						Run Loader by opening OSGeo4W shell and cding to the loader/python folder (note it can take a while to run). Show in database- should be 6 tables for topolines, topoarea, cartotext plus normal geometry_columns and spatial_ref_sys
+					</aside>
 				</section>
 
 				<section>
 					<h2>Step 3</h2>
-					<li>Configure the mapserver map file</li>
-					<li>Adjust styling to fit requirements</li>
+					<li>Connect to PostGIS database using QGIS</li>
+					<li>Use mapserver plugin to style data and configure map file</li>
+					<aside class="notes">
+						Note that for QGIS 2 you need the experimental RT Mapserver Importer (enable experimental plugins. Note also that we include a sample map file in the Loader download)
+					</aside>
 				</section>
 
 				<section>
 					<h2>Step 4</h2>
-					<li>View PostGIS data directly in QGIS</li>
-					<li>View styled data as WMS in QGIS</li>
+					<li>View data as WMS in QGIS</li>
 					<li>View data in OpenLayers</li>
+					<aside class="notes">
+						With a suitable mapserver and webserver, you can deploy the mastermap data as a WMS. The pre-supplied mapserver map file will provide most of the configuration for this but some depends on your personal setup...
+					</aside>
 				</section>
 
 				<section>
 					<h2>Deep dive into Loader</h2>
-					<li>It's not just for Mastermap Data</li>
-
+					<li>It's not just for Mastermap!</li>
+					<li>It's not just for PostGIS!</li>
+					<aside class="notes">
+						Loader can be used for other data sources such as the Land Registry parcels, Ordnance Survey Address Layer, Police Neighbourhood Polygons etc. It can be used to load data as shapefiles or tab files, not just postgis- by editing the config file. We use gfs to control the output- so pretty much any gml can be loaded with an appropriate gfs.
+					</aside>
+				</section>
 
 				
 
