@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="css/reveal.min.css">
-		<link rel="stylesheet" href="css/theme/serif.css" id="theme">
+		<link rel="stylesheet" href="css/theme/simple.css" id="theme">
 		<link rel="stylesheet" href="css/custom.css">
 
 		<!-- For syntax highlighting -->
@@ -41,47 +41,42 @@
 					<h2>Loading, Styling and Displaying Ordnance Survey Mastermap Data</h2>
 					<h3>with Open Source Software</h3>
 					<p>
-						<small>Jo Cook, Astun Technology</a> / <a href="http://twitter.com/archaeogeek">@archaeogeek</a></small>
+						Jo Cook, Astun Technology</a> / <a href="http://twitter.com/archaeogeek">@archaeogeek</a>
 					</p>
 					<img class="center" src="./images/logo.jpg" alt="Astun Logo">
 				</section>
 				
 				<section>
 					<h2>Starting Point: compressed gz files of Mastermap Data</h2>
-					<h2>End Point: Styled Mapping Data useable as vector (PostGIS or WFS) or raster (WMS)</h2>
+					<h2 class="fragment">End Point: Styled Mapping Data useable as vector (PostGIS or WFS) or raster (WMS)</h2>
 				</section>
 
 				<section>
 					<h2>What tools are we going to use?</h2>
 					<h3>Definitely...</h3>
-<<<<<<< HEAD
 					<ul>
 						<li>Python</li>
 						<li>OGR</li>
 						<li>PostGIS</li>
 					</ul>
-					<h3>Possibly...</h3>
+					<h3>And possibly...</h3>
 					<ul>
 						<li>QGIS</li>
 						<li>MapServer</li>
 						<li>OpenLayers</li>
 					</ul>
-=======
-					<li>Python</li>
-					<li>OGR</li>
-					<li>PostGIS</li>
-					<h3>Possibly...</h3>
-					<li>QGIS</li>
-					<li>MapServer</li>
-					<li>OpenLayers</li>
->>>>>>> fcc1094747de9b567efc79dc4195016a97813a4f
+				</section>
+
+				<section>
+					<h2>How do these fit together?</h2>
+					<img class="center" src="./images/police.png" alt="Police">
 				</section>
 
 				<section>
 					<h2>Step 1</h2>
 					<ul>
 						<li>Get Loader from <a href="https://github.com/AstunTechnology/Loader">GitHub</a> and see <a href="https://github.com/AstunTechnology/Loader/wiki/Installation">the Loader wiki</a> for installation instructions</li>
-						<li>Get Dependencies (GDAL and Python via <a href="http://trac.osgeo.org/osgeo4w/">OSGeo4W</a>, and <a href="https://pypi.python.org/pypi/lxml/2.3/">lxml</a>)</li>
+						<li>Get Dependencies (GDAL and Python via <a href="http://trac.osgeo.org/osgeo4w/">OSGeo4W</a>, and <a href="https://pypi.python.org/pypi/lxml/2.3/">lxml</a> via easy_install)</li>
 						<li>Get Data</li>
 						<li>Configure the database</li>
 						<li>Configure Loader</li>
@@ -98,9 +93,10 @@
 
 				<section>
 					<h2>Step 2</h2>
-					<li>Run Loader</li>
-					<li>Examine results in database</li>
-					<img class="center" src="./images/loader_finished.png" alt="Loader Finished">
+					<p>Run Loader</p>
+					<pre><code>python loader.py loader.config</code></pre>
+					<p>Examine results in database</p>
+					<img class="center" src="./images/pgadmin3.png" alt="PgAdmin3">
 					<aside class="notes">
 						Run Loader by opening OSGeo4W shell and cding to the loader/python folder (note it can take a while to run). Show in database- should be 6 tables for topolines, topoarea, cartotext plus normal geometry_columns and spatial_ref_sys
 					</aside>
@@ -108,17 +104,26 @@
 
 				<section>
 					<h2>Step 3</h2>
-					<li>Connect to PostGIS database using QGIS</li>
-					<li>Use mapserver plugin to style data and configure map file</li>
+					<p>Connect to PostGIS database using QGIS</p>
+					<img class="center" src="./images/qgis_postgis.png" alt="QGIS">
+				</section>
+
+				<section>
+					<img class="center" src="./images/qgis_postgis_2.png" alt="QGIS">
+				</section>	
+
+				<section>
+					<p>Use the mapserver plugin to style data and configure map file, or use the map file included with Loader</p>
+					<img class="center" src="./images/mapserver.png" alt="mapserver">
 					<aside class="notes">
-						Note that for QGIS 2 you need the experimental RT Mapserver Importer (enable experimental plugins. Note also that we include a sample map file in the Loader download)
+						Note that for QGIS 2 you need the experimental RT Mapserver Importer (enable experimental plugins) and also need python mapscript installed. Note also that we include a sample map file in the Loader download.
 					</aside>
 				</section>
 
 				<section>
 					<h2>Step 4</h2>
-					<li>View data as WMS in QGIS</li>
-					<li>View data in OpenLayers</li>
+					<p>View data as WMS in QGIS</p>
+					<img class="center" src="./images/wms.png" alt="QGIS">
 					<aside class="notes">
 						With a suitable mapserver and webserver, you can deploy the mastermap data as a WMS. The pre-supplied mapserver map file will provide most of the configuration for this but some depends on your personal setup...
 					</aside>
@@ -126,24 +131,24 @@
 
 				<section>
 					<h2>Deep dive into Loader</h2>
-					<li>It's not just for Mastermap!</li>
-					<li>It's not just for PostGIS!</li>
-					<aside class="notes">
-						Loader can be used for other data sources such as the Land Registry parcels, Ordnance Survey Address Layer, Police Neighbourhood Polygons etc. It can be used to load data as shapefiles or tab files, not just postgis- by editing the config file. We use gfs to control the output- so pretty much any gml can be loaded with an appropriate gfs.
-					</aside>
-
-					<li>Contributing</li>
+					<li class="fragment">It's not just for Mastermap- it can be used for Police neighbourhoods, Land Registry, AddressBase, VectorMapLocal, etc, etc!</li>
+					<li class="fragment">It's not just for PostGIS, it can be used for any ogr-supported output</li>
+					<li class="fragment">Use gfs and ogr (in Loader.config) for fine-grained control of output format and structure</li>
 				</section>
 
-				
-
 				<section>
-					<h2>Finish up TODO</h2>
+					<h2>Contributing</h2>
+					<p>Loader is on Github so we value contributions!</p>
+					<p>Here's the URL again: <a href="https://github.com/AstunTechnology/Loader">https://github.com/AstunTechnology/Loader</a></p>
 				</section>
 
 				<section>
 					<h1>Thanks :-)</h1>
-					<h3>Find this on github TODO</h3>
+					<p>Find this talk on github <a href="https://github.com/archaeogeek/aging_loaderdemo">https://github.com/archaeogeek/aging_loaderdemo</a></p>
+					<p>
+						Jo Cook, Astun Technology</a> / <a href="http://twitter.com/archaeogeek">@archaeogeek</a>
+					</p>
+					<img class="center" src="./images/logo.jpg" alt="Astun Logo">
 				</section>
 
 			</div>
